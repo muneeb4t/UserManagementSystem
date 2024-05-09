@@ -76,7 +76,6 @@ namespace UserManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception occurred: {ex.Message}");
                 return this.BadRequest(ex.Message);
             }
 
