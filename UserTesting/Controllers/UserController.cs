@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using UserManagementSystem.DTOs.Auth;
 using UserManagementSystem.DTOs.Users;
 using UserManagementSystem.Models;
 using UserManagementSystem.Services.UserServices;
@@ -16,11 +18,11 @@ namespace UserManagementSystem.Controllers
             _userService = userService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             try
-            {
+            { 
                 var users = await _userService.GetAllUsers();
                 return this.Ok("Users retrieved successfully.", users);
             }
@@ -31,7 +33,7 @@ namespace UserManagementSystem.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById(int Id)
+        public async Task<IActionResult> GetById(string Id)
         {
             try
             {
@@ -63,7 +65,7 @@ namespace UserManagementSystem.Controllers
         }
 
         [HttpPut("{Id}")]
-        public async Task<IActionResult> UpdateUser(GetUserDto user, int Id)
+        public async Task<IActionResult> UpdateUser(GetUserDto user, string Id)
         {
             try
             {
@@ -76,12 +78,12 @@ namespace UserManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message);
+                return this.BadRequest(ex.Message , "");
             }
 
         }
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> DeleteUser(int Id)
+        public async Task<IActionResult> DeleteUser(string Id)
         {
             try
             {

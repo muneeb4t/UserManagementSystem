@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using UserManagementSystem.Models;
 
-namespace UserManagementSystem.DTOs.Users
+namespace UserManagementSystem.DTOs.Auth
 {
-    public class AddUserDto
+    public class RegisterDTO
     {
         [Required]
         public string Name { get; set; } = string.Empty;
@@ -16,5 +15,9 @@ namespace UserManagementSystem.DTOs.Users
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare(nameof(Password))]
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace UserManagementSystem.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { set; get; }
-        public string? FullName { set; get; }
-
-        public string UserName { set; get; } 
-
+        [Required]
+        public string? Name { set; get; }
         public float Age { set; get; }
 
     }

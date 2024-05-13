@@ -1,16 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using UserManagementSystem.Models;
 
 namespace UserManagementSystem.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
             
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Roles> Roles { get; set; }
     }
 }
