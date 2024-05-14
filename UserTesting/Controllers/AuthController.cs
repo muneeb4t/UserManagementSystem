@@ -7,7 +7,7 @@ namespace UserManagementSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
 
@@ -22,11 +22,11 @@ namespace UserManagementSystem.Controllers
             try
             {
                 var response = await _authService.Register(userDTO);
-                return this.Ok(response, "User Registration Successfull");
+                return Ok(response, "User Registration Successfull");
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message, "");
+                return BadRequest(ex.Message, "");
             }
         }
         [HttpPost("login")]
@@ -35,12 +35,27 @@ namespace UserManagementSystem.Controllers
             try
             {
                 var response = await _authService.Login(userDTO);
-                return this.Ok("User LoggedIn Successsfully" , new { accesstoken =  response });
+                return Ok("User LoggedIn Successsfully" , new { accesstoken =  response });
             }
 
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message, "");
+                return BadRequest(ex.Message, "");
+            }
+        }
+
+        [HttpGet("verify")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string userId , string token)
+        {
+            try
+            {
+                var response = await _authService.ConfirmEmail(userId , token);
+                return Ok("Email Verified, Now you can Login to your account!" , "");
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message, "");
             }
         }
 

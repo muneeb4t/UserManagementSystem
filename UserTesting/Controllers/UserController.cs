@@ -9,7 +9,8 @@ namespace UserManagementSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    [Authorize]
+    public class UserController : BaseController
     {
 
         private readonly IUserService _userService;
@@ -19,16 +20,16 @@ namespace UserManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int pageIndex = 1, int pageSize = 10, string orderBy = "userName" , string orderType = "asc")
         {
             try
             { 
-                var users = await _userService.GetAllUsers();
-                return this.Ok("Users retrieved successfully.", users);
+                var users = await _userService.GetAllUsers(pageIndex, pageSize , orderBy , orderType);
+                return Ok("Users retrieved successfully.", users);
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message);
+                return BadRequest(ex.Message , "");
             }
         }
 
@@ -40,13 +41,13 @@ namespace UserManagementSystem.Controllers
                 var user = await _userService.GetUserById(Id);
                 if (user == null)
                 {
-                    return this.NotFound<User>("User not found.");
+                    return NotFound("User not found.");
                 }
-                return this.Ok("User retrieved successfully.", user);
+                return Ok("User retrieved successfully.", user);
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message);
+                return BadRequest(ex.Message , "");
             }
         }
 
@@ -56,11 +57,11 @@ namespace UserManagementSystem.Controllers
         {
             try
             {
-                return this.Ok("User Created Successfully", await _userService.AddUser(user));
+                return Ok("User Created Successfully", await _userService.AddUser(user));
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message , "");
+                return BadRequest(ex.Message , "");
             }
         }
 
@@ -72,13 +73,13 @@ namespace UserManagementSystem.Controllers
                 var responce = await _userService.UpdateUser(user, Id);
                 if (responce == null)
                 {
-                    return this.NotFound<User>("User not found.");
+                    return NotFound("User not found.");
                 }
-                return this.Ok("User Updated Successfully", responce);
+                return Ok("User Updated Successfully", responce);
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message , "");
+                return BadRequest(ex.Message , "");
             }
 
         }
@@ -88,11 +89,11 @@ namespace UserManagementSystem.Controllers
             try
             {
                 var responce = await _userService.DeleteUser(Id);
-                return this.Ok("User Deleted Successfully" , "");
+                return Ok("User Deleted Successfully" , "");
             }
             catch (Exception ex)
             {
-                return this.BadRequest(ex.Message);
+                return BadRequest(ex.Message , "");
             }
         }
 

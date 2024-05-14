@@ -6,7 +6,7 @@ namespace UserManagementSystem.Services.UserServices
 {
     public interface IUserService
     {
-        Task<List<GetUserDto>> GetAllUsers();
+        Task<List<GetUserDto>> GetAllUsers(int pageIndex, int pageSize, string orderBy, string orderType);
         Task<GetUserDto> GetUserById(string id);
         Task<GetUserDto> AddUser(AddUserDto newUser);
         Task<GetUserDto> UpdateUser(GetUserDto newUser, string id);

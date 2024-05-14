@@ -1,9 +1,10 @@
 ﻿namespace UserManagementSystem.Models
 {
-    public class ServiceResponse<T>
+    public class ServiceResponse<TMessage, TData>
     {
         public Int32 Status { get; set; }
-        public T Body { get; set; }
-        public string Message { get; set; }
+        public TData Body { get; set; }
+        public TMessage Message { get; set; }
     }
+
 }
